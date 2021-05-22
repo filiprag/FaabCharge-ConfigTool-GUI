@@ -21,6 +21,7 @@ import infoIcon from "../../../img/info-circle-solid.svg";
 import { data } from "jquery";
 import swal from "sweetalert";
 import Pagination from "../../shared/Pagination.js";
+import { CSVLink, CSVDownload } from "react-csv";
 
 function AllComponent(props) {
   const [element, setElement] = useState("Component");
@@ -93,6 +94,13 @@ function AllComponent(props) {
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = filteredList.slice(indexOfFirstPost, indexOfLastPost);
+  const headers = [
+    "Name",
+    "Price",
+    "Description",
+    "Manufacturer",
+    "ManufacturerPartId",
+  ];
 
   return (
     <div>
@@ -108,6 +116,11 @@ function AllComponent(props) {
               <Col></Col>
             </Row>
             <hr />
+            <CSVLink data={posts} headers={headers} separator={";"}>
+              Download me
+              {console.log(posts)}
+            </CSVLink>
+            ;
             <Table className="center">
               <thead className="table-borderless">
                 <tr>

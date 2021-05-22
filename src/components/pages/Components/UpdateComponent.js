@@ -8,6 +8,7 @@ import EditFormComponent from "../../shared/EditFormComponent";
 const UpdateComponent = (props) => {
   const [columns, setColumns] = useState([]);
   const [element, setElement] = useState("Component");
+  const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState([]);
   const [component, setComponent] = useState({});
   const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
@@ -33,14 +34,16 @@ const UpdateComponent = (props) => {
     setColumns(c);
     axios
       .get("https://localhost:44345/Components/" + props.location.id, apiHeader)
-      .then((res) => setComponent(res.data))
-      .then(console.log(component));
+      .then((res) => {
+        setComponent(res.data)
+        setLoading(false);
+      })
   }, []);
 
 
   return (
     <div>
-      {props.location.id == null ? (
+      {(props.location.id == null || loading == true)? (
         <Spinner animation="border" />
       ) : (
         <Row>

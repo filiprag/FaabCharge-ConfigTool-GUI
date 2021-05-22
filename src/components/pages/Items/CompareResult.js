@@ -28,16 +28,35 @@ const CompareResult = (props) => {
       <div>
         <Form>
           <Form.Group>
-            <Form.Label>Name</Form.Label>
-            <Form.Control size="sm" value={obj.name} disabled />
+            <Form.Label className="font-weight-bold">Name</Form.Label>
+            <Form.Control
+              plaintext
+              readOnly
+              size="sm"
+              value={obj.name}
+              disabled
+            />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Description</Form.Label>
-            <Form.Control as='textarea' size="sm" value={obj.description} disabled />
+            <Form.Label className="font-weight-bold">Description</Form.Label>
+            <Form.Control
+              plaintext
+              readOnly
+              as="textarea"
+              size="sm"
+              value={obj.description}
+              disabled
+            />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Price</Form.Label>
-            <Form.Control size="sm" value={obj.price} disabled />
+            <Form.Label className="font-weight-bold">Price</Form.Label>
+            <Form.Control
+              plaintext
+              readOnly
+              size="sm"
+              value={obj.price}
+              disabled
+            />
           </Form.Group>
         </Form>
         <Table size="sm">

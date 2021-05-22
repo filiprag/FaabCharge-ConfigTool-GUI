@@ -118,7 +118,7 @@ const CompareList = (props) => {
       </Card>
       <Modal size="xl" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Compare</Modal.Title>
+          <Modal.Title>Comparison</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>

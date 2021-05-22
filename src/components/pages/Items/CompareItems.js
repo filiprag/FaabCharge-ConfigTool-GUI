@@ -24,6 +24,18 @@ const CompareItems = (props) => {
     <div>
       <Row>
         <Col sm={10} md={5} lg={5} className="m-0 m-auto">
+          <div className>
+            <h3>Compare Items</h3>
+            <Form.Text muted>
+              Check the boxes to choose two items and press the confirm button
+              to compare the chosen items.
+            </Form.Text>
+            <p muted className="muted">
+              Check the boxes to choose two items and press the confirm button
+              to compare the chosen items.
+            </p>
+          </div>
+          <hr />
           <CompareList
             element={props.element}
             filteredList={filteredList}

@@ -29,12 +29,24 @@ const CompareResult = (props) => {
       <div>
         <Form>
           <Form.Group>
-            <Form.Label>Name</Form.Label>
-            <Form.Control size="sm" value={obj.name} disabled />
+            <Form.Label className="font-weight-bold">Name</Form.Label>
+            <Form.Control
+              plaintext
+              readOnly
+              size="sm"
+              value={obj.name}
+              disabled
+            />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Version Number</Form.Label>
-            <Form.Control size="sm" value={obj.versionNumber} disabled />
+            <Form.Label className="font-weight-bold">Version Number</Form.Label>
+            <Form.Control
+              plaintext
+              readOnly
+              size="sm"
+              value={obj.versionNumber}
+              disabled
+            />
           </Form.Group>
         </Form>
         <Table size="sm">

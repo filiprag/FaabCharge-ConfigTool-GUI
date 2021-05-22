@@ -106,7 +106,10 @@ function AllItems(props) {
               <Col></Col>
               <Col></Col>
             </Row>
-            <hr />
+            <Row>
+              <hr />
+            </Row>
+
             <Table className="center">
               <thead className="table-borderless">
                 <tr>

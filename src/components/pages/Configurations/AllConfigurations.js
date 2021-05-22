@@ -107,7 +107,10 @@ const deleteHandler = (e) => {
               <Col sm={0} md={0} lg={4}></Col>
               <Col sm={0} md={0} lg={4}></Col>
             </Row>
-            <hr />
+            <Row>
+              <hr />
+            </Row>
+          
             <Table className="center">
               <thead className="table-borderless">
                 <tr>

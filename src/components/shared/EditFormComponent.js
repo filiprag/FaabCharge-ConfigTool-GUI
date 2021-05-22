@@ -67,7 +67,7 @@ const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
               "Component Updated!",
               "Component Successfully Updated!",
               "success"
-            )
+            ).then((value) => {window.location.replace("/AllComponents")})
           } else {
             swal("Error!", "Something Went Wrong!", "error");
           }

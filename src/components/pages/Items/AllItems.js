@@ -40,6 +40,7 @@ function AllItems(props) {
       .then((res) => {
         setPosts(res.data);
         setFilteredList(res.data)
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -47,23 +48,25 @@ function AllItems(props) {
   }, []);
 
   const handleClose = () => setShow(false);
+
   const handleShow = (e) => {
     setShow(true);
-    axios.get("https://localhost:44345/Items/" + e.target.id).then((res) => {
-      console.log(res.data);
-      setDetails(res.data.item);
-      setObj(res.data.components);
-    });
+    axios
+      .get("https://localhost:44345/Items/" + e.target.id, apiHeader)
+      .then((res) => {
+        setDetails(res.data.item);
+        setObj(res.data.components);
+      });
   };
   const refreshpage = () => {
     axios
-      .get("https://localhost:44345/Components")
+      .get("https://localhost:44345/Components", apiHeader)
       .then((res) => setPosts(res.data));
   };
   const deleteHandler = (e) => {
     if (window.confirm("Are you sure?")) {
       axios
-        .delete("https://localhost:44345/Items/" + e.target.id)
+        .delete("https://localhost:44345/Items/" + e.target.id, apiHeader)
         .then((res) => {
           refreshpage();
           if (res.status == "200")
@@ -119,91 +122,103 @@ function AllItems(props) {
             <Row>
               <hr />
             </Row>
-
-            <Table className="center">
-              <thead className="table-borderless">
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              {currentPosts.map((post) => {
-                return (
-                  <tbody>
+            {loading ? (
+              <Spinner animation="border" />
+            ) : (
+              <div>
+                <Table className="center">
+                  <thead className="table-borderless">
                     <tr>
-                      <td>{post.name}</td>
-                      <td>{post.description}</td>
-                      <td>{post.price}</td>
-                      <td>
-                        <OverlayTrigger
-                          overlay={
-                            <Tooltip id="tooltip-disabled">Information about this Item</Tooltip>
-                          }
-                        >
-                          <Link>
-                            <img
-                              className="mb-2"
-                              style={{ width: "1.4rem", cursor: "pointer" }}
-                              id={post.id}
-                              src={infoIcon}
-                              onClick={handleShow}
-                            />
-                          </Link>
-                        </OverlayTrigger>
-                      </td>
-                      <td>
-                        <OverlayTrigger
-                          overlay={
-                            <Tooltip id="tooltip-disabled">Edit Item</Tooltip>
-                          }
-                        >
-                          <Link
-                            to={{
-                              pathname: "UpdateItem",
-                              id: post.id,
-                            }}
-                          >
-                            <img
-                              className="mb-2"
-                              style={{ width: "1.4rem", cursor: "pointer" }}
-                              id={post.id}
-                              src={editIcon}
-                            />
-                          </Link>
-                        </OverlayTrigger>
-                      </td>
-                      <td>
-                        <OverlayTrigger
-                          overlay={
-                            <Tooltip id="tooltip-disabled">Delete Item</Tooltip>
-                          }
-                        >
-                          <Link>
-                            <img
-                              className="mb-2"
-                              style={{ width: "1.1rem", cursor: "pointer" }}
-                              id={post.id}
-                              src={delIcon}
-                              onClick={deleteHandler}
-                            />
-                          </Link>
-                        </OverlayTrigger>
-                      </td>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Price</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
                     </tr>
-                  </tbody>
-                );
-              })}
-            </Table>
-            <Pagination
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              postsPerPage={postsPerPage}
-              totalPosts={posts.length}
-            />
+                  </thead>
+                  {currentPosts.map((post) => {
+                    return (
+                      <tbody>
+                        <tr>
+                          <td>{post.name}</td>
+                          <td>{post.description}</td>
+                          <td>{post.price}</td>
+                          <td>
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id="tooltip-disabled">
+                                  Information about this Item
+                                </Tooltip>
+                              }
+                            >
+                              <Link>
+                                <img
+                                  className="mb-2"
+                                  style={{ width: "1.4rem", cursor: "pointer" }}
+                                  id={post.id}
+                                  src={infoIcon}
+                                  onClick={handleShow}
+                                />
+                              </Link>
+                            </OverlayTrigger>
+                          </td>
+                          <td>
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id="tooltip-disabled">
+                                  Edit Item
+                                </Tooltip>
+                              }
+                            >
+                              <Link
+                                to={{
+                                  pathname: "UpdateItem",
+                                  id: post.id,
+                                }}
+                                onClick={console.log(post.id)}
+                              >
+                                <img
+                                  className="mb-2"
+                                  style={{ width: "1.4rem", cursor: "pointer" }}
+                                  id={post.id}
+                                  src={editIcon}
+                                />
+                              </Link>
+                            </OverlayTrigger>
+                          </td>
+                          <td>
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id="tooltip-disabled">
+                                  Delete Item
+                                </Tooltip>
+                              }
+                            >
+                              <Link>
+                                <img
+                                  className="mb-2"
+                                  style={{ width: "1.1rem", cursor: "pointer" }}
+                                  id={post.id}
+                                  src={delIcon}
+                                  onClick={deleteHandler}
+                                />
+                              </Link>
+                            </OverlayTrigger>
+                          </td>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
+                </Table>
+                <Pagination
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  postsPerPage={postsPerPage}
+                  totalPosts={posts.length}
+                />
+              </div>
+            )}
           </div>
         </Col>
       </Row>

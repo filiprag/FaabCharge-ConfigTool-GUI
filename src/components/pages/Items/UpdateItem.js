@@ -22,6 +22,7 @@ const UpdateItem = (props) => {
   useEffect(() => {
     
 
+    console.log(props.location.id)
 
     if (props.location.id == null) {
       
@@ -63,49 +64,53 @@ const UpdateItem = (props) => {
   console.log(selected)
   return (
     <div>
-      <Row>
-        <Col>
-          <Card className="p-5 shadow">
-            <h5>Update {element}</h5>
-            <hr />
+      {props.location.id == null ? (
+        <Spinner animation="border" />
+      ) : (
+        <Row>
+          <Col>
+            <Card className="p-5 shadow">
+              <h5>Update {element}</h5>
+              <hr />
 
-            <EditFormComponent
-              editObject={item}
-              setEditObject={setItem}
-              columns={columns}
-              selected={selected}
-              setSelected={setSelected}
-              element={element}
-            ></EditFormComponent>
-          </Card>
-        </Col>
-
-        <Col>
-          <Card className="p-5 shadow">
-            <h5>Resources</h5>
-            <hr />
-
-            {loading ? ( //Renders spinner while fetching from API
-              <div className="p-5">
-                <Spinner animation="border" />
-              </div>
-            ) : (
-              <Table
-                loading={loading}
-                list={componentList}
-                columns={childColumns}
-                setFilteredList={setFilteredList}
-                filteredList={filteredList}
-                query={query}
-                setQuery={setQuery}
-                element={element}
+              <EditFormComponent
+                editObject={item}
+                setEditObject={setItem}
+                columns={columns}
                 selected={selected}
                 setSelected={setSelected}
-              />
-            )}
-          </Card>
-        </Col>
-      </Row>
+                element={element}
+              ></EditFormComponent>
+            </Card>
+          </Col>
+
+          <Col>
+            <Card className="p-5 shadow">
+              <h5>Resources</h5>
+              <hr />
+
+              {loading ? ( //Renders spinner while fetching from API
+                <div className="p-5">
+                  <Spinner animation="border" />
+                </div>
+              ) : (
+                <Table
+                  loading={loading}
+                  list={componentList}
+                  columns={childColumns}
+                  setFilteredList={setFilteredList}
+                  filteredList={filteredList}
+                  query={query}
+                  setQuery={setQuery}
+                  element={element}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+              )}
+            </Card>
+          </Col>
+        </Row>
+      )}
     </div>
   );
 };

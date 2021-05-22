@@ -46,9 +46,12 @@ function App() {
             <ProtectedRoute exact path="/AllConfigurations">
               <AllConfigurations element="Configuration" />
             </ProtectedRoute>
-            <ProtectedRoute exact path="/UpdateConfiguration">
-              <UpdateConfiguration />
-            </ProtectedRoute>
+            <ProtectedRoute
+              exact
+              path="/UpdateConfiguration"
+              component={UpdateConfiguration}
+              id={null}
+            ></ProtectedRoute>
             <ProtectedRoute exact path="/CompareConfigurations">
               <CompareConfigurations />
             </ProtectedRoute>
@@ -56,9 +59,12 @@ function App() {
             <ProtectedRoute exact path="/CreateItem">
               <CreateItem element="Item" />
             </ProtectedRoute>
-            <ProtectedRoute exact path="/UpdateItem">
-              <UpdateItem />
-            </ProtectedRoute>
+            <ProtectedRoute
+              exact
+              path="/UpdateItem"
+              component={UpdateItem}
+              id={null}
+            ></ProtectedRoute>
             <ProtectedRoute exact path="/AllItems">
               <AllItems />
             </ProtectedRoute>
@@ -73,6 +79,7 @@ function App() {
               exact
               path="/UpdateComponent"
               component={UpdateComponent}
+              id={null}
             ></ProtectedRoute>
             <ProtectedRoute exact path="/AllComponents">
               <AllComponents />

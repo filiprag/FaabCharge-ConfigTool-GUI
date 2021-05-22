@@ -44,6 +44,7 @@ function AllComponent(props) {
       .then((res) => {
         setPosts(res.data);
         setFilteredList(res.data);
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err);
@@ -60,7 +61,6 @@ function AllComponent(props) {
       axios
         .delete("https://localhost:44345/Components/" + e.target.id, apiHeader)
         .then((res) => {
-          refreshpage();
           if (res.status == "200")
             swal(
               "Component Deleted",
@@ -70,6 +70,7 @@ function AllComponent(props) {
           else {
             swal("Something Went Wrong Try Again..", "", "warning");
           }
+          refreshpage();
         })
         .catch((err) =>
           swal("Something Went Wrong Try Again..", "", "warning")
@@ -143,85 +144,89 @@ function AllComponent(props) {
             <hr />
           </Row>
           <Row>
-            <Col sm={10} md={8} lg={6} className="m-0 m-auto">
-              <Table className="center m-0 m-auto border">
-                <thead className="table-borderless">
-                  <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Description</th>
-                    <th>Manufacturer</th>
-                    <th>ManufacturerPartId</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                {currentPosts.map((post) => {
-                  return (
-                    <tbody>
-                      <tr>
-                        <td>{post.name}</td>
-                        <td>{post.price}</td>
-                        <td title={post.description}>
-                          {post.description.slice(0, 30)}
-                        </td>
-                        <td>{post.manufacturer}</td>
-                        <td>{post.manufacturerPartId}</td>
-                        <td>
-                          <OverlayTrigger
-                            overlay={
-                              <Tooltip id="tooltip-disabled">
-                                Edit Component
-                              </Tooltip>
-                            }
-                          >
-                            <Link
-                              to={{
-                                pathname: "UpdateComponent",
-                                id: post.id,
-                              }}
+            {loading ? (
+              <Spinner animation="border" />
+            ) : (
+              <Col sm={10} md={8} lg={6} className="m-0 m-auto">
+                <Table className="center m-0 m-auto">
+                  <thead className="table-borderless">
+                    <tr>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th>Description</th>
+                      <th>Manufacturer</th>
+                      <th>ManufacturerPartId</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  {currentPosts.map((post) => {
+                    return (
+                      <tbody>
+                        <tr>
+                          <td>{post.name}</td>
+                          <td>{post.price}</td>
+                          <td title={post.description}>
+                            {post.description.slice(0, 30)}
+                          </td>
+                          <td>{post.manufacturer}</td>
+                          <td>{post.manufacturerPartId}</td>
+                          <td>
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id="tooltip-disabled">
+                                  Edit Component
+                                </Tooltip>
+                              }
                             >
-                              <img
-                                className="mb-2"
-                                style={{ width: "1.4rem", cursor: "pointer" }}
-                                id={post.id}
-                                src={editIcon}
-                              />
-                            </Link>
-                          </OverlayTrigger>
-                        </td>
-                        <td>
-                          <OverlayTrigger
-                            overlay={
-                              <Tooltip id="tooltip-disabled">
-                                Delete Component
-                              </Tooltip>
-                            }
-                          >
-                            <Link>
-                              <img
-                                className="mb-2"
-                                style={{ width: "1.1rem", cursor: "pointer" }}
-                                id={post.id}
-                                src={delIcon}
-                                onClick={deleteHandler}
-                              />
-                            </Link>
-                          </OverlayTrigger>
-                        </td>
-                      </tr>
-                    </tbody>
-                  );
-                })}
-              </Table>
-              <Pagination
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                postsPerPage={postsPerPage}
-                totalPosts={posts.length}
-              />
-            </Col>
+                              <Link
+                                to={{
+                                  pathname: "UpdateComponent",
+                                  id: post.id,
+                                }}
+                              >
+                                <img
+                                  className="mb-2"
+                                  style={{ width: "1.4rem", cursor: "pointer" }}
+                                  id={post.id}
+                                  src={editIcon}
+                                />
+                              </Link>
+                            </OverlayTrigger>
+                          </td>
+                          <td>
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id="tooltip-disabled">
+                                  Delete Component
+                                </Tooltip>
+                              }
+                            >
+                              <Link>
+                                <img
+                                  className="mb-2"
+                                  style={{ width: "1.1rem", cursor: "pointer" }}
+                                  id={post.id}
+                                  src={delIcon}
+                                  onClick={deleteHandler}
+                                />
+                              </Link>
+                            </OverlayTrigger>
+                          </td>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
+                </Table>
+                <Pagination
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  postsPerPage={postsPerPage}
+                  totalPosts={posts.length}
+                />
+              </Col>
+            )}
           </Row>
         </Col>
       </Row>

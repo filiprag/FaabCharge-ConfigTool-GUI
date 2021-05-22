@@ -24,7 +24,8 @@ const Pagination = (props) => {
 
   const handleNext = () => {
     if (props.currentPage < lastPage) {
-      props.setCurrentPage(props.currentPage + 1);
+      console.log(props.currentPage)
+      props.setCurrentPage(Number.parseInt(props.currentPage) + 1);
     }
   };
   const handlePrev = () => {

@@ -16,7 +16,7 @@ const UpdateComponent = (props) => {
 
   useEffect(() => {
 
-    if(props.location.id == null){
+    if(props.location.id == 0){
 
       window.location.replace("/AllComponents")
     }

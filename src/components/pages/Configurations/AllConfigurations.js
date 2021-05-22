@@ -40,6 +40,7 @@ function AllConfigurations(props) {
       .then((res) => {
         setPosts(res.data)
         setFilteredList(res.data)
+        setLoading(false)
       })
       .catch(err => {
         console.log(err)
@@ -120,93 +121,98 @@ const deleteHandler = (e) => {
             <Row>
               <hr />
             </Row>
-          
-            <Table className="center">
-              <thead className="table-borderless">
-                <tr>
-                  <th>Name</th>
-                  <th>Versionnumber</th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              {currentPosts.map((post) => {
-                return (
-                  <tbody>
+            {loading ? (
+              <Spinner animation="border" />
+            ) : (
+              <div>
+                <Table className="center">
+                  <thead className="table-borderless">
                     <tr>
-                      <td>{post.name}</td>
-                      <td>{post.versionNumber}</td>
-                      <td>
-                        <OverlayTrigger
-                          overlay={
-                            <Tooltip id="tooltip-disabled">
-                              Infomation about this Configuration
-                            </Tooltip>
-                          }
-                        >
-                          <img
-                            className="mb-2"
-                            style={{ width: "1.4rem", cursor: "pointer" }}
-                            id={post.id}
-                            src={infoIcon}
-                            onClick={handleShow}
-                          />
-                        </OverlayTrigger>
-                      </td>
-                      <td>
-                        <OverlayTrigger
-                          overlay={
-                            <Tooltip id="tooltip-disabled">
-                              Edit Configuration
-                            </Tooltip>
-                          }
-                        >
-                          <Link
-                            to={{
-                              pathname: "UpdateConfiguration",
-                              id: post.id,
-                            }}
-                          >
-                            <img
-                              className="mb-2"
-                              style={{ width: "1.4rem", cursor: "pointer" }}
-                              id={post.id}
-                              src={editIcon}
-                            />
-                          </Link>
-                        </OverlayTrigger>
-                      </td>
-                      <td>
-                        <OverlayTrigger
-                          overlay={
-                            <Tooltip id="tooltip-disabled">
-                              Delete Configuration
-                            </Tooltip>
-                          }
-                        >
-                          <Link>
-                            <img
-                              className="mb-2"
-                              style={{ width: "1.1rem", cursor: "pointer" }}
-                              id={post.id}
-                              src={delIcon}
-                              onClick={deleteHandler}
-                            />
-                          </Link>
-                        </OverlayTrigger>
-                      </td>
+                      <th>Name</th>
+                      <th>Versionnumber</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
                     </tr>
-                  </tbody>
-                );
-              })}
-            </Table>
-            <Pagination
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              postsPerPage={postsPerPage}
-              totalPosts={posts.length}
-            />
+                  </thead>
+                  {currentPosts.map((post) => {
+                    return (
+                      <tbody>
+                        <tr>
+                          <td>{post.name}</td>
+                          <td>{post.versionNumber}</td>
+                          <td>
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id="tooltip-disabled">
+                                  Infomation about this Configuration
+                                </Tooltip>
+                              }
+                            >
+                              <img
+                                className="mb-2"
+                                style={{ width: "1.4rem", cursor: "pointer" }}
+                                id={post.id}
+                                src={infoIcon}
+                                onClick={handleShow}
+                              />
+                            </OverlayTrigger>
+                          </td>
+                          <td>
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id="tooltip-disabled">
+                                  Edit Configuration
+                                </Tooltip>
+                              }
+                            >
+                              <Link
+                                to={{
+                                  pathname: "UpdateConfiguration",
+                                  id: post.id,
+                                }}
+                              >
+                                <img
+                                  className="mb-2"
+                                  style={{ width: "1.4rem", cursor: "pointer" }}
+                                  id={post.id}
+                                  src={editIcon}
+                                />
+                              </Link>
+                            </OverlayTrigger>
+                          </td>
+                          <td>
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id="tooltip-disabled">
+                                  Delete Configuration
+                                </Tooltip>
+                              }
+                            >
+                              <Link>
+                                <img
+                                  className="mb-2"
+                                  style={{ width: "1.1rem", cursor: "pointer" }}
+                                  id={post.id}
+                                  src={delIcon}
+                                  onClick={deleteHandler}
+                                />
+                              </Link>
+                            </OverlayTrigger>
+                          </td>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
+                </Table>
+                <Pagination
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  postsPerPage={postsPerPage}
+                  totalPosts={posts.length}
+                />
+              </div>
+            )}
           </div>
         </Col>
       </Row>

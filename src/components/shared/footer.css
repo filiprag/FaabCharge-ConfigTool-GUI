@@ -1,0 +1,14 @@
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 50px; /* Vertically center the text there */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 5vh;
+    font-family: 'Poppins', sans-serif;
+    color: black;
+    font-size: large;
+}

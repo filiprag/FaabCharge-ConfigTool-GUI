@@ -1,0 +1,66 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  background: #789B86;
+}
+@media all and (min-width: 480px) {
+    .Login {
+      padding: 60px 0;
+    }
+  
+    .Login form {
+      margin: 0 auto;
+      max-width: 320px;
+    }
+  }
+  .ButtonLogin{
+    background-color: #6CDE62;
+    color: white;
+    padding: 10px 25px;
+    margin: 8px 100px;
+    border: none;
+    cursor: pointer;
+    margin-top: 30px;
+    border-radius: 20px 20px 20px;
+}
+.ButtonLogin:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)
+}
+.Login{
+    align-items: center;
+    
+}
+h1{
+    margin:auto;
+    color: white;
+    text-align: center;
+    margin-bottom: 3%;
+}
+.input1{
+    color: white;
+    margin-bottom: 4%;
+    margin-top: 3%;
+}
+a{
+  color: white;
+}
+a:hover{
+  color: white;
+}
+.text{
+  margin: auto;
+  text-align:start;
+  display: inline;
+}
+
+img {
+  z-index: 0;
+  margin:auto;
+  margin-top: 70px;
+  justify-content: center;
+}

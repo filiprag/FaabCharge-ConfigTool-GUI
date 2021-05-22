@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Table, Row, Col, ListGroup, Form, Button } from "react-bootstrap";
+import { Table, Row, Col, ListGroup, Form, Collapse} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import delIcon from "../../img/trash-solid.svg";
 import editIcon from "../../img/edit-solid.svg";
@@ -67,6 +67,7 @@ function SelectedList(props) {
     
     if(props.element == "Item"){
 
+
       props.setSelected(props.selected.filter((i) => i.component.id != id));
       
     } else {
@@ -125,56 +126,62 @@ function SelectedList(props) {
   const RenderList = () => {
     if (props.element == "Item") {
       return props.selected.map((i) => (
-        <ListGroup.Item className="w-100">
-          <Row>
-            <Col sm={5} md={5} lg={5}>
-              {i.component.name}
-            </Col>
-            <Col>{i.component.price}</Col>
-            <Col>
-              <Form.Control
-                className="text-center"
-                size="sm"
-                onChange={(e) => changeQuantity(e.target.value, i.component.id)}
-                id={i.component.id}
-                type="number"
-                value={i.quantity && i.quantity}
-              ></Form.Control>
-            </Col>
-            <Col>
-              <img
-                style={{ width: "1rem", cursor: "pointer" }}
-                id={i.id}
-                onClick={(e) => onRemove(i.component.id)}
-                src={delIcon}
-              />
-            </Col>
-          </Row>
-        </ListGroup.Item>
+        <Collapse in={true}>
+          <ListGroup.Item className="w-100">
+            <Row>
+              <Col sm={5} md={5} lg={5}>
+                {i.component.name}
+              </Col>
+              <Col>{i.component.price}</Col>
+              <Col>
+                <Form.Control
+                  className="text-center"
+                  size="sm"
+                  onChange={(e) =>
+                    changeQuantity(e.target.value, i.component.id)
+                  }
+                  id={i.component.id}
+                  type="number"
+                  value={i.quantity && i.quantity}
+                ></Form.Control>
+              </Col>
+              <Col>
+                <img
+                  style={{ width: "1rem", cursor: "pointer" }}
+                  id={i.id}
+                  onClick={(e) => onRemove(i.component.id)}
+                  src={delIcon}
+                />
+              </Col>
+            </Row>
+          </ListGroup.Item>
+        </Collapse>
       ));
     } else if (props.element == "Configuration") {
       return props.selected.map((i) => (
-        <ListGroup.Item className="w-100">
-          <Row>
-            <Col sm={3} md={3} lg={3}>
-              {i.name}
-            </Col>
-            <Col sm={5} md={5} lg={5}>
-              {i.description}
-            </Col>
-            <Col sm={2} md={2} lg={2}>
-              {i.price}
-            </Col>
+        <Collapse in={true}>
+          <ListGroup.Item className="w-100">
+            <Row>
+              <Col sm={3} md={3} lg={3}>
+                {i.name}
+              </Col>
+              <Col sm={5} md={5} lg={5}>
+                {i.description}
+              </Col>
+              <Col sm={2} md={2} lg={2}>
+                {i.price}
+              </Col>
               <Col>
-              <img
-                style={{ width: "1rem", cursor: "pointer" }}
-                id={i.id}
-                onClick={(e) => onRemove(i.id)}
-                src={delIcon}
-              />
-            </Col>
-          </Row>
-        </ListGroup.Item>
+                <img
+                  style={{ width: "1rem", cursor: "pointer" }}
+                  id={i.id}
+                  onClick={(e) => onRemove(i.id)}
+                  src={delIcon}
+                />
+              </Col>
+            </Row>
+          </ListGroup.Item>
+        </Collapse>
       ));
     } else if(props.element == "Component"){
       return(<div></div>)

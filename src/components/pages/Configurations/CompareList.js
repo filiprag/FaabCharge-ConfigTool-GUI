@@ -4,10 +4,13 @@ import { Card, Table, Form, Button, Modal, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import swal from 'sweetalert'
 import CompareResult from './CompareResult.js'
+import Pagination from "../../shared/Pagination.js";
 
 const CompareList = (props) => {
 
   const [show, setShow] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(2);
 
   useEffect(() => {
 
@@ -71,6 +74,12 @@ const CompareList = (props) => {
 
   };
 
+      const indexOfLastPost = currentPage * postsPerPage;
+      const indexOfFirstPost = indexOfLastPost - postsPerPage;
+      const currentPosts = props.filteredList.slice(
+        indexOfFirstPost,
+        indexOfLastPost
+      );
   return (
     <div>
       <Card>
@@ -87,7 +96,7 @@ const CompareList = (props) => {
             </tr>
           </thead>
           <tbody>
-            {props.filteredList.map((i) => (
+            {currentPosts.map((i) => (
               <tr>
                 <td>{i.name}</td>
                 <td>{i.versionNumber}</td>

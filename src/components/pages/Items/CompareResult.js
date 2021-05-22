@@ -6,7 +6,6 @@ const CompareResult = (props) => {
 
     const [list, setList] = useState([])
     const [obj, setObj] = useState({})
-
     
 
     useEffect(() => {
@@ -21,6 +20,7 @@ const CompareResult = (props) => {
     }, [])
     
 
+    
 
 
 

@@ -18,7 +18,7 @@ function CreateConfiguration(props) {
   const [selected, setSelected] = useState([]);
   const [currentPage, setCurrentPage] = useState(1)
   const [postsPerPage, setPostsPerPage] = useState(2)
-
+const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
 
   useEffect(() => {
 
@@ -31,7 +31,7 @@ function CreateConfiguration(props) {
     setChildColumns(cc)
 
 
-    axios.get("https://localhost:44345/Items")
+    axios.get("https://localhost:44345/Items", apiHeader)
       .then(res => {
 
         if (res.status == "200") {

@@ -22,10 +22,11 @@ function AllItems(props) {
   const [obj, setObj] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(2);
+  const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
 
   useEffect(() => {
     axios
-      .get("https://localhost:44345/Items")
+      .get("https://localhost:44345/Items", apiHeader)
       .then((res) => {
         setPosts(res.data);
         setFilteredList(res.data)

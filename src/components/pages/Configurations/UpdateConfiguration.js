@@ -17,6 +17,7 @@ const UpdateConfiguration = (props) => {
   const [element, setElement] = useState("Configuration");
   const [selected, setSelected] = useState([]);
   const [configuration, setConfiguration] = useState({});
+  const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
 
   useEffect(() => {
 
@@ -38,13 +39,18 @@ const UpdateConfiguration = (props) => {
 
 
 
-    axios.get("https://localhost:44345/Configuration/ " + props.location.id).then((res) => {
-    console.log(res.data)  
-    setConfiguration(res.data.configuration);
-      setSelected(res.data.items);
-    });
+    axios
+      .get(
+        "https://localhost:44345/Configuration/ " + props.location.id,
+        apiHeader
+      )
+      .then((res) => {
+        console.log(res.data);
+        setConfiguration(res.data.configuration);
+        setSelected(res.data.items);
+      });
 
-    axios.get("https://localhost:44345/Items").then((res) => {
+    axios.get("https://localhost:44345/Items", apiHeader).then((res) => {
       if (res.status == "200") {
         setComponentList(res.data);
         setFilteredList(res.data);

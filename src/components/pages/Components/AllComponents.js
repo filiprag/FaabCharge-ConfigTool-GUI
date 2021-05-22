@@ -32,10 +32,11 @@ function AllComponent(props) {
   const [postsPerPage, setPostsPerPage] = useState(2);
   const [query, setQuery] = useState("");
   const [filteredList, setFilteredList] = useState([]);
+  const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
 
   useEffect(() => {
     axios
-      .get("https://localhost:44345/Components")
+      .get("https://localhost:44345/Components", apiHeader)
       .then((res) => {
         setPosts(res.data);
         setFilteredList(res.data);
@@ -46,14 +47,14 @@ function AllComponent(props) {
   }, []);
   const refreshpage = () => {
     axios
-      .get("https://localhost:44345/Components")
+      .get("https://localhost:44345/Components", apiHeader)
       .then((res) => setPosts(res.data));
   };
 
   const deleteHandler = (e) => {
     if (window.confirm("Are you sure?")) {
       axios
-        .delete("https://localhost:44345/Components/" + e.target.id)
+        .delete("https://localhost:44345/Components/" + e.target.id, apiHeader)
         .then((res) => {
           refreshpage();
           if (res.status == "200")

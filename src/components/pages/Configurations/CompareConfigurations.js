@@ -11,10 +11,11 @@ const CompareConfigurations = (props) => {
     const [selected, setSelected] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
     const [query, setQuery] = useState("");
+    const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
 
       useEffect(() => {
 
-        axios.get("https://localhost:44345/Configuration").then((res) => {
+        axios.get("https://localhost:44345/Configuration", apiHeader).then((res) => {
           setList(res.data);
           setFilteredList(res.data);
           console.log(res.data)

@@ -17,6 +17,7 @@ const UpdateItem = (props) => {
   const [element, setElement] = useState("Item");
   const [selected, setSelected] = useState([]);
   const [item, setItem] = useState({});
+  const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
 
   useEffect(() => {
     
@@ -39,13 +40,13 @@ const UpdateItem = (props) => {
 
     setColumns(c)
     setChildColumns(c);
-    axios.get("https://localhost:44345/Items/" + props.location.id)
+    axios.get("https://localhost:44345/Items/" + props.location.id, apiHeader)
       .then((res) => {
           setItem(res.data.item)
           setSelected(res.data.components)
       })
     
-    axios.get("https://localhost:44345/Components").then((res) => {
+    axios.get("https://localhost:44345/Components", apiHeader).then((res) => {
       if (res.status == "200") {
         console.log(res.data);
         setComponentList(res.data);

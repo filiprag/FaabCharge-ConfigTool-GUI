@@ -23,9 +23,10 @@ function AllConfigurations(props) {
   const [list, setList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage, setPostsPerPage] = useState(2);
+    const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" }};
 
   useEffect(() => {
-    axios.get('https://localhost:44345/Configuration')
+    axios.get('https://localhost:44345/Configuration', apiHeader)
       .then((res) => {
         setPosts(res.data)
         setFilteredList(res.data)
@@ -39,21 +40,21 @@ function AllConfigurations(props) {
   const handleClose = () => setShow(false);
   const handleShow = (e) => {
     setShow(true);
-    axios.get("https://localhost:44345/Configuration/" + e.target.id).then((res) => {
+    axios.get("https://localhost:44345/Configuration/" + e.target.id, apiHeader).then((res) => {
       setDetails(res.data.configuration);
       setList(res.data.items)
     });
   };
 const refreshpage = () => {
 
-  axios.get("https://localhost:44345/Configuration").then((res => setPosts(res.data)))
+  axios.get("https://localhost:44345/Configuration", apiHeader).then((res => setPosts(res.data)))
 
 
 }
 const deleteHandler = (e) => {
   if (window.confirm("Are you sure?")) {
     axios
-      .delete("https://localhost:44345/Configuration/" + e.target.id)
+      .delete("https://localhost:44345/Configuration/" + e.target.id, apiHeader)
       .then((res) => {
         refreshpage()
       if(res.status=="200")

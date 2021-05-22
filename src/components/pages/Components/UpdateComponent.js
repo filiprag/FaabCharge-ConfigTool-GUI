@@ -10,6 +10,7 @@ const UpdateComponent = (props) => {
   const [element, setElement] = useState("Component");
   const [selected, setSelected] = useState([]);
   const [component, setComponent] = useState({});
+  const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
 
 
 
@@ -31,7 +32,7 @@ const UpdateComponent = (props) => {
 
     setColumns(c);
     axios
-      .get("https://localhost:44345/Components/" + props.location.id)
+      .get("https://localhost:44345/Components/" + props.location.id, apiHeader)
       .then((res) => setComponent(res.data))
       .then(console.log(component));
   }, []);

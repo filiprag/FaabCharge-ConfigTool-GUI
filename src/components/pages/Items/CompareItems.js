@@ -3,6 +3,7 @@ import CompareList from "./CompareList.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { Col, Row, Form, Button, Card } from "react-bootstrap";
+const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
 
 
 const CompareItems = (props) => {
@@ -12,7 +13,7 @@ const CompareItems = (props) => {
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-    axios.get("https://localhost:44345/Items").then((res) => {
+    axios.get("https://localhost:44345/Items", apiHeader).then((res) => {
       setList(res.data);
       setFilteredList(res.data);
     });

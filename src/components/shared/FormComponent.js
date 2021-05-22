@@ -7,7 +7,7 @@ import swal from 'sweetalert'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 function FormComponent(props) {
-
+const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
 
   useEffect(() => {
 
@@ -44,7 +44,7 @@ function FormComponent(props) {
 
       }
 
-      axios.post("https://localhost:44345/Items", postObj)
+      axios.post("https://localhost:44345/Items", postObj, apiHeader)
         .then(res => {
 
           console.log(res)
@@ -69,7 +69,7 @@ function FormComponent(props) {
         description: document.getElementById('Description').value,
         manufacturer: document.getElementById('Manufacturer').value,
         manufacturerPartId: document.getElementById('ManufacturerPartId').value,
-      })
+      }, apiHeader)
         .then(res => {
 
           console.log(res)
@@ -106,7 +106,7 @@ function FormComponent(props) {
       }
 
       axios
-        .post("https://localhost:44345/Configuration/", postObj)
+        .post("https://localhost:44345/Configuration/", postObj, apiHeader)
         .then((res) => {
           console.log(res);
           if (res.status == "200") {

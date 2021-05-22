@@ -6,6 +6,8 @@ import swal from "sweetalert";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function EditFormComponent(props) {
+const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
+
   useEffect(() => {
 
       console.log(Object.entries(props.editObject));
@@ -37,7 +39,7 @@ function EditFormComponent(props) {
         components: componentList,
       };
 
-      axios.put("https://localhost:44345/Items/" + props.editObject.id, postObj).then((res) => {
+      axios.put("https://localhost:44345/Items/" + props.editObject.id, postObj, apiHeader).then((res) => {
         console.log(res);
         if (res.status == "200") {
 
@@ -57,7 +59,7 @@ function EditFormComponent(props) {
           manufacturer: document.getElementById("manufacturer").value,
           manufacturerPartId:
             document.getElementById("manufacturerPartId").value,
-        })
+        }, apiHeader)
         .then((res) => {
           console.log(res);
           if (res.status == "200") {
@@ -94,7 +96,7 @@ function EditFormComponent(props) {
 
       console.log(props.editObject.id)
       axios
-        .put("https://localhost:44345/Configuration/" + props.editObject.id, postObj)
+        .put("https://localhost:44345/Configuration/" + props.editObject.id, postObj, apiHeader)
         .then((res) => {
           if (res.status == "200") {
             swal(

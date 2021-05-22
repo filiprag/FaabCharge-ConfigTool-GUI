@@ -6,13 +6,14 @@ const CompareResult = (props) => {
 
     const [list, setList] = useState([])
     const [obj, setObj] = useState({})
+    const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
     
 
     useEffect(() => {
 
         console.log(props.id)
 
-        axios.get("https://localhost:44345/Items/" + props.id).then((res) => {
+        axios.get("https://localhost:44345/Items/" + props.id, apiHeader).then((res) => {
           setList(res.data.components);
           setObj(res.data.item);
         });

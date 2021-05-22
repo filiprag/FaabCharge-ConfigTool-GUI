@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Col, Row, Form, Spinner, Table, Modal, Button } from 'react-bootstrap'
+import {
+  Col,
+  Row,
+  Form,
+  Spinner,
+  Table,
+  Modal,
+  Button,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import editIcon from "../../../img/edit-solid.svg";
@@ -128,39 +138,63 @@ const deleteHandler = (e) => {
                       <td>{post.name}</td>
                       <td>{post.versionNumber}</td>
                       <td>
-                        <img
-                          className="mb-2"
-                          style={{ width: "1.4rem", cursor: "pointer" }}
-                          id={post.id}
-                          src={infoIcon}
-                          onClick={handleShow}
-                        />
-                      </td>
-                      <td>
-                        <Link
-                          to={{
-                            pathname: "UpdateConfiguration",
-                            id: post.id,
-                          }}
+                        <OverlayTrigger
+                          overlay={
+                            <Tooltip id="tooltip-disabled">
+                              Infomation about this Configuration
+                            </Tooltip>
+                          }
                         >
                           <img
                             className="mb-2"
                             style={{ width: "1.4rem", cursor: "pointer" }}
                             id={post.id}
-                            src={editIcon}
+                            src={infoIcon}
+                            onClick={handleShow}
                           />
-                        </Link>
+                        </OverlayTrigger>
                       </td>
                       <td>
-                        <Link>
-                          <img
-                            className="mb-2"
-                            style={{ width: "1.1rem", cursor: "pointer" }}
-                            id={post.id}
-                            src={delIcon}
-                            onClick={deleteHandler}
-                          />
-                        </Link>
+                        <OverlayTrigger
+                          overlay={
+                            <Tooltip id="tooltip-disabled">
+                              Edit Configuration
+                            </Tooltip>
+                          }
+                        >
+                          <Link
+                            to={{
+                              pathname: "UpdateConfiguration",
+                              id: post.id,
+                            }}
+                          >
+                            <img
+                              className="mb-2"
+                              style={{ width: "1.4rem", cursor: "pointer" }}
+                              id={post.id}
+                              src={editIcon}
+                            />
+                          </Link>
+                        </OverlayTrigger>
+                      </td>
+                      <td>
+                        <OverlayTrigger
+                          overlay={
+                            <Tooltip id="tooltip-disabled">
+                              Delete Configuration
+                            </Tooltip>
+                          }
+                        >
+                          <Link>
+                            <img
+                              className="mb-2"
+                              style={{ width: "1.1rem", cursor: "pointer" }}
+                              id={post.id}
+                              src={delIcon}
+                              onClick={deleteHandler}
+                            />
+                          </Link>
+                        </OverlayTrigger>
                       </td>
                     </tr>
                   </tbody>

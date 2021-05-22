@@ -169,30 +169,46 @@ function AllComponent(props) {
                         <td>{post.manufacturer}</td>
                         <td>{post.manufacturerPartId}</td>
                         <td>
-                          <Link
-                            to={{
-                              pathname: "UpdateComponent",
-                              id: post.id,
-                            }}
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip id="tooltip-disabled">
+                                Edit Component
+                              </Tooltip>
+                            }
                           >
-                            <img
-                              className="mb-2"
-                              style={{ width: "1.4rem", cursor: "pointer" }}
-                              id={post.id}
-                              src={editIcon}
-                            />
-                          </Link>
+                            <Link
+                              to={{
+                                pathname: "UpdateComponent",
+                                id: post.id,
+                              }}
+                            >
+                              <img
+                                className="mb-2"
+                                style={{ width: "1.4rem", cursor: "pointer" }}
+                                id={post.id}
+                                src={editIcon}
+                              />
+                            </Link>
+                          </OverlayTrigger>
                         </td>
                         <td>
-                          <Link>
-                            <img
-                              className="mb-2"
-                              style={{ width: "1.1rem", cursor: "pointer" }}
-                              id={post.id}
-                              src={delIcon}
-                              onClick={deleteHandler}
-                            />
-                          </Link>
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip id="tooltip-disabled">
+                                Delete Component
+                              </Tooltip>
+                            }
+                          >
+                            <Link>
+                              <img
+                                className="mb-2"
+                                style={{ width: "1.1rem", cursor: "pointer" }}
+                                id={post.id}
+                                src={delIcon}
+                                onClick={deleteHandler}
+                              />
+                            </Link>
+                          </OverlayTrigger>
                         </td>
                       </tr>
                     </tbody>

@@ -17,7 +17,7 @@ import { render } from "@testing-library/react";
 
 import editIcon from "../../../img/edit-solid.svg";
 import delIcon from "../../../img/trash-solid.svg";
-import infoIcon from "../../../img/info-circle-solid.svg";
+import exportIcon from "../../../img/file-download-solid.svg";
 import { data } from "jquery";
 import swal from "sweetalert";
 import Pagination from "../../shared/Pagination.js";
@@ -95,11 +95,11 @@ function AllComponent(props) {
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = filteredList.slice(indexOfFirstPost, indexOfLastPost);
   const headers = [
-    "Name",
-    "Price",
-    "Description",
-    "Manufacturer",
-    "ManufacturerPartId",
+    { label: "Name", key: "name" },
+    { label: "Price", key: "price" },
+    { label: "Description", key: "description" },
+    { label: "Manufacturer", key: "manufacturer" },
+    { label: "ManufacturerPartId", key: "manufacturerpartid" },
   ];
 
   return (
@@ -113,14 +113,16 @@ function AllComponent(props) {
                 <Form.Control placeholder="Search..." onChange={handleSearch} />
               </Col>
               <Col></Col>
-              <Col></Col>
+              <Col>
+                <CSVLink data={posts} headers={headers} separator={";"}>
+                  <img
+                    src={exportIcon}
+                    style={{ width: "1.4rem", cursor: "pointer" }}
+                  ></img>
+                </CSVLink>
+              </Col>
             </Row>
             <hr />
-            <CSVLink data={posts} headers={headers} separator={";"}>
-              Download me
-              {console.log(posts)}
-            </CSVLink>
-            ;
             <Table className="center">
               <thead className="table-borderless">
                 <tr>

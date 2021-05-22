@@ -58,7 +58,7 @@ const UpdateConfiguration = (props) => {
     <div>
       <Row>
         <Col>
-          <Card className="p-5 ">
+          <Card className="p-5 shadow">
             <h5>Update {element}</h5>
             <hr />
 
@@ -74,7 +74,7 @@ const UpdateConfiguration = (props) => {
         </Col>
 
         <Col>
-          <Card className="p-5">
+          <Card className="p-5 shadow">
             <h5>Resources</h5>
             <hr />
 

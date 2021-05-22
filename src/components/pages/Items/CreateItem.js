@@ -48,7 +48,7 @@ function CreateItem(props) {
     <div>
       <Row>
         <Col>
-        <Card className='p-5'>
+        <Card className='p-5 shadow'>
         <h5>Create {element}</h5>
         <hr />
           
@@ -68,7 +68,7 @@ function CreateItem(props) {
         </Col>
 
         <Col>
-        <Card className='p-5'>
+        <Card className='p-5 shadow'>
         <h5>Resources</h5>
         <hr />
              

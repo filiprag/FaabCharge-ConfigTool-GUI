@@ -57,7 +57,7 @@ function CreateConfiguration(props) {
     <div>
       <Row>
         <Col>
-          <Card className='p-5'>
+          <Card className='p-5 shadow'>
             <h5>Create {element}</h5>
             <hr />
 
@@ -76,7 +76,7 @@ function CreateConfiguration(props) {
         </Col>
 
         <Col>
-          <Card className='p-5'>
+          <Card className='p-5 shadow'>
             <h5>Resources</h5>
             <hr />
 

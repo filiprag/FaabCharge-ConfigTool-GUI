@@ -44,7 +44,7 @@ const UpdateComponent = (props) => {
       ) : (
         <Row>
           <Col sm={10} md={8} lg={6} className="m-0 m-auto">
-            <Card className="p-5 ">
+            <Card className="p-5 shadow">
               <h5>Update {element}</h5>
               <hr />
 

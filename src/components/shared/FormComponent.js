@@ -21,11 +21,33 @@ const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
     //Sends post request to API, for creating an item
     if (props.element == "Item") {
 
+      let ok = true;
 
-      let name = document.getElementById("Name").value
-     
+      if (document.getElementById("Name").value == "") {
+        document.getElementById("Name").classList.remove("is-valid");
+        document.getElementById("Name").classList.add("is-invalid");
+        ok = false;
+      } else {
+        document.getElementById("Name").classList.remove("is-invalid");
+        document.getElementById("Name").classList.add("is-valid");
+        
+      }
+
+      let name = document.getElementById("Name").value;
+
+      if (document.getElementById("Description").value == "") {
+        document.getElementById("Description").classList.remove("is-valid");
+        document.getElementById("Description").classList.add("is-invalid");
+        
+        ok = false;
+      } else {
+        document.getElementById("Description").classList.remove("is-invalid");
+        document.getElementById("Description").classList.add("is-valid");
+      }
+
       let description = document.getElementById("Description").value;
-      console.log(props.selected)
+      
+      
       let componentList = props.selected.map(i => {
 
         return {
@@ -44,48 +66,137 @@ const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
 
       }
 
-      axios.post("https://localhost:44345/Items", postObj, apiHeader)
-        .then(res => {
+      if(ok){
 
-          console.log(res)
-          if (res.status == "200") {
-            swal("Item Created!", "Item Successfully Created!", "success")
-            .then(() => window.location.replace("/AllItems"))
-          
-            
-          } else {
-            swal("Error!", "Something Went Wrong!", "error")
-          }
-        })
+         axios
+           .post("https://localhost:44345/Items", postObj, apiHeader)
+           .then((res) => {
+             console.log(res);
+             if (res.status == "200") {
+               swal(
+                 "Item Created!",
+                 "Item Successfully Created!",
+                 "success"
+               ).then(() => window.location.replace("/AllItems"));
+             } else {
+               swal("Error!", "Something Went Wrong!", "error");
+             }
+           });
+      }
+     
 
     } else if (props.element == "Component") {
 
-      console.log(document.getElementById("Name").value);
+      let ok = true;
 
 
-      axios.post('https://localhost:44345/Components', {
-        name: document.getElementById('Name').value,
-        price: document.getElementById('Price').value,
-        description: document.getElementById('Description').value,
-        manufacturer: document.getElementById('Manufacturer').value,
-        manufacturerPartId: document.getElementById('ManufacturerPartId').value,
-      }, apiHeader)
-        .then(res => {
+      if (document.getElementById("Name").value == ""){
+        document.getElementById("Name").classList.remove("is-valid");
+        document.getElementById("Name").classList.add("is-invalid");
+        ok = false;
+      } else {
+        document.getElementById("Name").classList.remove("is-invalid");
+        document.getElementById("Name").classList.add("is-valid");
+        
+      }
 
-          console.log(res)
-          if (res.status == "200") {
-            swal(
-              "Component Created!",
-              "Component Successfully Created!",
-              "success"
-            ).then(() =>  window.location.replace("/AllComponents"))
-          } else {
-            swal("Error!", "Something Went Wrong!", "error")
-          }
-        })
+      if (document.getElementById("Price").value == "") {
+        document.getElementById("Price").classList.remove("is-valid");
+        document.getElementById("Price").classList.add("is-invalid");
+        ok = false;
+      } else {
+        document.getElementById("Price").classList.remove("is-invalid");
+        document.getElementById("Price").classList.add("is-valid");
+        
+      }
+
+      if (document.getElementById("Description").value == "") {
+        document.getElementById("Description").classList.remove("is-valid");
+        document.getElementById("Description").classList.add("is-invalid");
+        ok = false;
+      } else {
+        document.getElementById("Description").classList.remove("is-invalid");
+        document.getElementById("Description").classList.add("is-valid");
+      }
+
+      if (document.getElementById("Manufacturer").value == "") {
+        document.getElementById("Manufacturer").classList.remove("is-valid");
+        document.getElementById("Manufacturer").classList.add("is-invalid");
+        ok = false;
+      } else {
+        document.getElementById("Manufacturer").classList.remove("is-invalid");
+        document.getElementById("Manufacturer").classList.add("is-valid");
+      }
+
+      if (document.getElementById("ManufacturerPartId").value == "") {
+        document
+          .getElementById("ManufacturerPartId")
+          .classList.remove("is-valid");
+        document
+          .getElementById("ManufacturerPartId")
+          .classList.add("is-invalid");
+          ok = false;
+      } else {
+        document
+          .getElementById("ManufacturerPartId")
+          .classList.remove("is-invalid");
+        document.getElementById("ManufacturerPartId").classList.add("is-valid");
+      }
+
+      if(ok){
+
+        axios
+          .post(
+            "https://localhost:44345/Components",
+            {
+              name: document.getElementById("Name").value,
+              price: document.getElementById("Price").value,
+              description: document.getElementById("Description").value,
+              manufacturer: document.getElementById("Manufacturer").value,
+              manufacturerPartId:
+                document.getElementById("ManufacturerPartId").value,
+            },
+            apiHeader
+          )
+          .then((res) => {
+            console.log(res);
+            if (res.status == "200") {
+              swal(
+                "Component Created!",
+                "Component Successfully Created!",
+                "success"
+              ).then(() => window.location.replace("/AllComponents"));
+            } else {
+              swal("Error!", "Something Went Wrong!", "error");
+            }
+          });
+      }
+
+
+      
 
     } else if (props.element == "Configuration") {
 
+       let ok = true;
+
+       if (document.getElementById("Name").value == "") {
+         document.getElementById("Name").classList.remove("is-valid");
+         document.getElementById("Name").classList.add("is-invalid");
+         ok = false;
+       } else {
+         document.getElementById("Name").classList.remove("is-invalid");
+         document.getElementById("Name").classList.add("is-valid");
+       }
+
+       if (document.getElementById("Version").value == "") {
+         document.getElementById("Version").classList.remove("is-valid");
+         document.getElementById("Version").classList.add("is-invalid");
+
+         ok = false;
+       } else {
+         document.getElementById("Version").classList.remove("is-invalid");
+         document.getElementById("Version").classList.add("is-valid");
+       }
       let name = document.getElementById("Name").value
       let version = document.getElementById("Version").value;
       let itemList = []
@@ -105,20 +216,23 @@ const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
         "items": itemList
       }
 
-      axios
-        .post("https://localhost:44345/Configuration/", postObj, apiHeader)
-        .then((res) => {
-          console.log(res);
-          if (res.status == "200") {
-            swal(
-              "Configuration Created!",
-              "Configuration Successfully Created!",
-              "success"
-            ).then(() =>  window.location.replace("/AllConfigurations"))
-          } else {
-            swal("Error!", "Something Went Wrong!", "error");
-          }
-        });
+      if(ok){
+         axios
+           .post("https://localhost:44345/Configuration/", postObj, apiHeader)
+           .then((res) => {
+             console.log(res);
+             if (res.status == "200") {
+               swal(
+                 "Configuration Created!",
+                 "Configuration Successfully Created!",
+                 "success"
+               ).then(() => window.location.replace("/AllConfigurations"));
+             } else {
+               swal("Error!", "Something Went Wrong!", "error");
+             }
+           });
+      }
+     
 
     }
   }

@@ -17,7 +17,7 @@ function CreateItem(props) {
   const [query, setQuery] = useState("")
   const [selected, setSelected] = useState([]);
   const [currentPage, setCurrentPage] = useState(1)
-  const [postsPerPage, setPostsPerPage] = useState(2)
+  const [postsPerPage, setPostsPerPage] = useState(10)
   const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" }};
   
   

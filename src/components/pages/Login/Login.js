@@ -1,40 +1,41 @@
 import React, { useState, useEffect } from "react";
-import {Form, Button, Card, Col, Row, Spinner} from "react-bootstrap";
-import Logo from '../../../img/users-solid.svg';
-import swal from 'sweetalert'
+import { Form, Button, Card, Col, Row, Spinner } from "react-bootstrap";
+import Logo from "../../../img/users-solid.svg";
+import swal from "sweetalert";
 import { Link, useHistory } from "react-router-dom";
-
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const history = useHistory();
 
-
   useEffect(() => {
-
-    if(localStorage.getItem('isAuth')){
-
-      window.location.replace("/AllComponents")
+    if (localStorage.getItem("isAuth")) {
+      window.location.replace("/AllComponents");
     } else {
-      setLoading(false)
+      setLoading(false);
     }
-
-
-  }, [])
+  }, []);
 
   function handleSubmit(e) {
-    
-    e.preventDefault()
-    if(username == "Admin" && password == "Admin"){
-
-      localStorage.setItem("isAuth", username)
-      history.push('/AllComponents')
+    e.preventDefault();
+    if (username == "Admin") {
       
-    } else {
+      document.getElementById("username").classList.remove("is-invalid");
+      document.getElementById("username").classList.add("is-valid");
 
-      swal("Login failed", "Login failed, please try again", "error")
+      if (password == "Admin") {
+        document.getElementById("password").classList.remove("is-invalid");
+        document.getElementById("password").classList.add("is-valid");
+
+        localStorage.setItem("isAuth", username);
+        history.push("/AllComponents");
+      } else {
+        document.getElementById("password").classList.add("is-invalid");
+      }
+    } else {
+      document.getElementById("username").classList.add("is-invalid");
     }
   }
 
@@ -59,17 +60,25 @@ export default function Login() {
                     <Form.Group>
                       <Form.Label>Username</Form.Label>
                       <Form.Control
+                        id="username"
                         placeholder="Username..."
                         onChange={(e) => setUsername(e.target.value)}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        Invalid username!
+                      </Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group>
                       <Form.Label>Password</Form.Label>
                       <Form.Control
+                        id="password"
                         type="password"
                         placeholder="Password..."
                         onChange={(e) => setPassword(e.target.value)}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        Invalid password!
+                      </Form.Control.Feedback>
                     </Form.Group>
                   </div>
                   <Button

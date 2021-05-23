@@ -18,12 +18,14 @@ import delIcon from "../../../img/trash-solid.svg";
 import infoIcon from "../../../img/info-circle-solid.svg";
 import swal from "sweetalert";
 import Pagination from "../../shared/Pagination.js";
+import List from './AllConfigurationsList.js'
 
 function AllConfigurations(props) {
 
   const [filteredList, setFilteredList] = useState([])
   const [elementList, setElementList] = useState([])
   const [loading, setLoading] = useState(true)
+  const [loadingModal, setLoadingModal] = useState(true)
   const [query, setQuery] = useState("")
   const [columns, setColumns] = useState([])
   const [element, setElement] = useState('Configuration')
@@ -50,10 +52,12 @@ function AllConfigurations(props) {
 
   const handleClose = () => setShow(false);
   const handleShow = (e) => {
+    setLoadingModal(true)
     setShow(true);
     axios.get("https://localhost:44345/Configuration/" + e.target.id, apiHeader).then((res) => {
       setDetails(res.data.configuration);
       setList(res.data.items)
+      setLoadingModal(false)
     });
   };
 const refreshpage = () => {
@@ -112,7 +116,7 @@ const deleteHandler = (e) => {
                   md={10}
                   lg={4}
                   placeholder="Search..."
-                  onChange={handleSearch}
+                  onChange={(e) => setQuery(e.target.value)}
                 />
               </Col>
               <Col sm={0} md={0} lg={4}></Col>
@@ -125,86 +129,15 @@ const deleteHandler = (e) => {
               <Spinner animation="border" />
             ) : (
               <div>
-                <Table className="center">
-                  <thead className="table-borderless">
-                    <tr>
-                      <th>Name</th>
-                      <th>Versionnumber</th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  {currentPosts.map((post) => {
-                    return (
-                      <tbody>
-                        <tr>
-                          <td>{post.name}</td>
-                          <td>{post.versionNumber}</td>
-                          <td>
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip id="tooltip-disabled">
-                                  Infomation about this Configuration
-                                </Tooltip>
-                              }
-                            >
-                              <img
-                                className="mb-2"
-                                style={{ width: "1.4rem", cursor: "pointer" }}
-                                id={post.id}
-                                src={infoIcon}
-                                onClick={handleShow}
-                              />
-                            </OverlayTrigger>
-                          </td>
-                          <td>
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip id="tooltip-disabled">
-                                  Edit Configuration
-                                </Tooltip>
-                              }
-                            >
-                              <Link
-                                to={{
-                                  pathname: "UpdateConfiguration",
-                                  id: post.id,
-                                }}
-                              >
-                                <img
-                                  className="mb-2"
-                                  style={{ width: "1.4rem", cursor: "pointer" }}
-                                  id={post.id}
-                                  src={editIcon}
-                                />
-                              </Link>
-                            </OverlayTrigger>
-                          </td>
-                          <td>
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip id="tooltip-disabled">
-                                  Delete Configuration
-                                </Tooltip>
-                              }
-                            >
-                              <Link>
-                                <img
-                                  className="mb-2"
-                                  style={{ width: "1.1rem", cursor: "pointer" }}
-                                  id={post.id}
-                                  src={delIcon}
-                                  onClick={deleteHandler}
-                                />
-                              </Link>
-                            </OverlayTrigger>
-                          </td>
-                        </tr>
-                      </tbody>
-                    );
-                  })}
-                </Table>
+                <List
+                  posts={posts}
+                  query={query}
+                  currentPosts={currentPosts}
+                  deleteHandler={deleteHandler}
+                  handleShow={handleShow}
+                  setFilteredList={setFilteredList}
+                />
+
                 <Pagination
                   currentPage={currentPage}
                   setCurrentPage={setCurrentPage}
@@ -217,52 +150,58 @@ const deleteHandler = (e) => {
         </Col>
       </Row>
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title className="text-center">
-            <h3>Details</h3>
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h5 className="text-center">Configuration</h5>
-          <Table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{details.name}</td>
-                <td>{details.versionNumber}</td>
-              </tr>
-            </tbody>
-          </Table>
-          <h5 className="text-center">Included Items</h5>
-          <Table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Desription</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              {list.map((i) => (
-                <tr>
-                  <td>{i.name}</td>
-                  <td>{i.description}</td>
-                  <td>{i.price}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
+        {loadingModal ? (
+          <Spinner className="m-0 m-auto" animation="border" />
+        ) : (
+          <div>
+            <Modal.Header closeButton>
+              <Modal.Title className="text-center">
+                <h3>Details</h3>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <h5 className="text-center">Configuration</h5>
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{details.name}</td>
+                    <td>{details.versionNumber}</td>
+                  </tr>
+                </tbody>
+              </Table>
+              <h5 className="text-center">Included Items</h5>
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Desription</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {list.map((i) => (
+                    <tr>
+                      <td>{i.name}</td>
+                      <td>{i.description}</td>
+                      <td>{i.price}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </div>
+        )}
       </Modal>
     </div>
   );

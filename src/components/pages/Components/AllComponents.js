@@ -23,6 +23,7 @@ import delIcon from "../../../img/trash-solid.svg";
 import exportIcon from "../../../img/file-download-solid.svg";
 import { data } from "jquery";
 import swal from "sweetalert";
+import List from "./AllComponentsList.js";
 import Pagination from "../../shared/Pagination.js";
 import { CSVLink, CSVDownload } from "react-csv";
 
@@ -31,9 +32,9 @@ function AllComponent(props) {
   const [posts, setPosts] = useState([]);
   const [show, setShow] = useState(false);
   const { details, setDetails } = useState([]);
-  const { loading, setLoading } = useState(true);
+  const [ loading, setLoading ] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(2);
+  const [postsPerPage, setPostsPerPage] = useState(5);
   const [query, setQuery] = useState("");
   const [filteredList, setFilteredList] = useState([]);
   const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
@@ -44,33 +45,43 @@ function AllComponent(props) {
       .then((res) => {
         setPosts(res.data);
         setFilteredList(res.data);
-        setLoading(false)
+        setLoading(false);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
   const refreshpage = () => {
     axios
       .get("https://localhost:44345/Components", apiHeader)
       .then((res) => setPosts(res.data));
   };
 
+
   const deleteHandler = (e) => {
+    console.log(e.target.id)
     if (window.confirm("Are you sure?")) {
       axios
         .delete("https://localhost:44345/Components/" + e.target.id, apiHeader)
         .then((res) => {
-          if (res.status == "200")
+          if (res.status == "200"){
+
+            console.log(e.target.id)
             swal(
               "Component Deleted",
               "Component was succesfully deleted",
               "success"
-            );
+            ).then((value) => {refreshpage()})
+
+
+
+
+          }           
           else {
             swal("Something Went Wrong Try Again..", "", "warning");
           }
-          refreshpage();
         })
         .catch((err) =>
           swal("Something Went Wrong Try Again..", "", "warning")
@@ -78,26 +89,11 @@ function AllComponent(props) {
     }
   };
 
-  const handleSearch = (e) => {
-    setQuery(e.target.value);
-
-    if (query == "") {
-      console.log("triggad");
-      setFilteredList(posts);
-    } else {
-      setFilteredList(
-        filteredList.filter(
-          (i) =>
-            i.name.toLowerCase().includes(query.toLowerCase()) ||
-            i.description.toLowerCase().includes(query.toLowerCase())
-        )
-      );
-    }
-  };
-
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = filteredList.slice(indexOfFirstPost, indexOfLastPost);
+
+
   const headers = [
     { label: "Name", key: "name" },
     { label: "Price", key: "price" },
@@ -117,7 +113,9 @@ function AllComponent(props) {
                 <Col>
                   <Form.Control
                     placeholder="Search..."
-                    onChange={handleSearch}
+                    onChange={(e) => {
+                      setQuery(e.target.value);
+                    }}
                   />
                 </Col>
                 <Col></Col>
@@ -144,89 +142,28 @@ function AllComponent(props) {
             <hr />
           </Row>
           <Row>
-            {loading ? (
-              <Spinner animation="border" />
-            ) : (
-              <Col sm={10} md={8} lg={6} className="m-0 m-auto">
-                <Table className="center m-0 m-auto">
-                  <thead className="table-borderless">
-                    <tr>
-                      <th>Name</th>
-                      <th>Price</th>
-                      <th>Description</th>
-                      <th>Manufacturer</th>
-                      <th>ManufacturerPartId</th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  {currentPosts.map((post) => {
-                    return (
-                      <tbody>
-                        <tr>
-                          <td>{post.name}</td>
-                          <td>{post.price}</td>
-                          <td title={post.description}>
-                            {post.description.slice(0, 30)}
-                          </td>
-                          <td>{post.manufacturer}</td>
-                          <td>{post.manufacturerPartId}</td>
-                          <td>
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip id="tooltip-disabled">
-                                  Edit Component
-                                </Tooltip>
-                              }
-                            >
-                              <Link
-                                to={{
-                                  pathname: "UpdateComponent",
-                                  id: post.id,
-                                }}
-                              >
-                                <img
-                                  className="mb-2"
-                                  style={{ width: "1.4rem", cursor: "pointer" }}
-                                  id={post.id}
-                                  src={editIcon}
-                                />
-                              </Link>
-                            </OverlayTrigger>
-                          </td>
-                          <td>
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip id="tooltip-disabled">
-                                  Delete Component
-                                </Tooltip>
-                              }
-                            >
-                              <Link>
-                                <img
-                                  className="mb-2"
-                                  style={{ width: "1.1rem", cursor: "pointer" }}
-                                  id={post.id}
-                                  src={delIcon}
-                                  onClick={deleteHandler}
-                                />
-                              </Link>
-                            </OverlayTrigger>
-                          </td>
-                        </tr>
-                      </tbody>
-                    );
-                  })}
-                </Table>
-                <Pagination
-                  currentPage={currentPage}
-                  setCurrentPage={setCurrentPage}
-                  postsPerPage={postsPerPage}
-                  totalPosts={posts.length}
-                />
-              </Col>
-            )}
+            <Col sm={10} md={8} lg={6} className="m-0 m-auto">
+              {loading ? (
+                <Spinner animation="border" />
+              ) : (
+                <div>
+                  <List
+                    posts={posts}
+                    deleteHandler={deleteHandler}
+                    currentPosts={currentPosts}
+                    query={query}
+                    filteredList={filteredList}
+                    setFilteredList={setFilteredList}
+                  />
+                  <Pagination
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    postsPerPage={postsPerPage}
+                    totalPosts={posts.length}
+                  />
+                </div>
+              )}
+            </Col>
           </Row>
         </Col>
       </Row>

@@ -13,16 +13,15 @@ import {
 } from "react-bootstrap";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import editIcon from "../../../img/edit-solid.svg";
-import delIcon from "../../../img/trash-solid.svg";
-import infoIcon from "../../../img/info-circle-solid.svg";
 import swal from "sweetalert";
 import Pagination from "../../shared/Pagination.js";
+import AllItemsList from './AllItemsList.js'
 
 function AllItems(props) {
   const [filteredList, setFilteredList] = useState([]);
   const [elementList, setElementList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingModal, setLoadingModal] = useState(true);
   const [query, setQuery] = useState("");
   const [columns, setColumns] = useState([]);
   const [element, setElement] = useState("Item");
@@ -31,7 +30,7 @@ function AllItems(props) {
   const [details, setDetails] = useState([]);
   const [obj, setObj] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(2);
+  const [postsPerPage, setPostsPerPage] = useState(10);
   const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
 
   useEffect(() => {
@@ -50,12 +49,14 @@ function AllItems(props) {
   const handleClose = () => setShow(false);
 
   const handleShow = (e) => {
+    setLoadingModal(true)
     setShow(true);
     axios
       .get("https://localhost:44345/Items/" + e.target.id, apiHeader)
       .then((res) => {
         setDetails(res.data.item);
         setObj(res.data.components);
+        setLoadingModal(false)
       });
   };
   const refreshpage = () => {
@@ -86,22 +87,7 @@ function AllItems(props) {
   };
 
 
-  const handleSearch = (e) => {
-    setQuery(e.target.value);
 
-    if (query == "") {
-      console.log("triggad");
-      setFilteredList(posts);
-    } else {
-      setFilteredList(
-        filteredList.filter(
-          (i) =>
-            i.name.toLowerCase().includes(query.toLowerCase()) ||
-            i.description.toLowerCase().includes(query.toLowerCase())
-        )
-      );
-    }
-  };
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     const currentPosts = filteredList.slice(indexOfFirstPost, indexOfLastPost);
@@ -114,7 +100,12 @@ function AllItems(props) {
           <div>
             <Row>
               <Col>
-                <Form.Control placeholder="Search..." onChange={handleSearch} />
+                <Form.Control
+                  placeholder="Search..."
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                  }}
+                />
               </Col>
               <Col></Col>
               <Col></Col>
@@ -126,91 +117,14 @@ function AllItems(props) {
               <Spinner animation="border" />
             ) : (
               <div>
-                <Table className="center">
-                  <thead className="table-borderless">
-                    <tr>
-                      <th>Name</th>
-                      <th>Description</th>
-                      <th>Price</th>
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  {currentPosts.map((post) => {
-                    return (
-                      <tbody>
-                        <tr>
-                          <td>{post.name}</td>
-                          <td>{post.description}</td>
-                          <td>{post.price}</td>
-                          <td>
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip id="tooltip-disabled">
-                                  Information about this Item
-                                </Tooltip>
-                              }
-                            >
-                              <Link>
-                                <img
-                                  className="mb-2"
-                                  style={{ width: "1.4rem", cursor: "pointer" }}
-                                  id={post.id}
-                                  src={infoIcon}
-                                  onClick={handleShow}
-                                />
-                              </Link>
-                            </OverlayTrigger>
-                          </td>
-                          <td>
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip id="tooltip-disabled">
-                                  Edit Item
-                                </Tooltip>
-                              }
-                            >
-                              <Link
-                                to={{
-                                  pathname: "UpdateItem",
-                                  id: post.id,
-                                }}
-                                onClick={console.log(post.id)}
-                              >
-                                <img
-                                  className="mb-2"
-                                  style={{ width: "1.4rem", cursor: "pointer" }}
-                                  id={post.id}
-                                  src={editIcon}
-                                />
-                              </Link>
-                            </OverlayTrigger>
-                          </td>
-                          <td>
-                            <OverlayTrigger
-                              overlay={
-                                <Tooltip id="tooltip-disabled">
-                                  Delete Item
-                                </Tooltip>
-                              }
-                            >
-                              <Link>
-                                <img
-                                  className="mb-2"
-                                  style={{ width: "1.1rem", cursor: "pointer" }}
-                                  id={post.id}
-                                  src={delIcon}
-                                  onClick={deleteHandler}
-                                />
-                              </Link>
-                            </OverlayTrigger>
-                          </td>
-                        </tr>
-                      </tbody>
-                    );
-                  })}
-                </Table>
+                <AllItemsList
+                  posts={posts}
+                  query={query}
+                  currentPosts={currentPosts}
+                  deleteHandler={deleteHandler}
+                  handleShow={handleShow}
+                  setFilteredList={setFilteredList}
+                />
                 <Pagination
                   currentPage={currentPage}
                   setCurrentPage={setCurrentPage}
@@ -223,60 +137,71 @@ function AllItems(props) {
         </Col>
       </Row>
       <Modal show={show} onHide={handleClose} size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <h3 className="text-center">Details</h3>
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h5 className="text-center">Item</h5>
-          <Table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{details.name}</td>
-                <td>{details.description}</td>
-                <td>{details.price}</td>
-              </tr>
-            </tbody>
-          </Table>
-          <h5 className="text-center">Included Components</h5>
-          <Table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th>Manufacturer</th>
-                <th>ManufacturerPartId</th>
-                <th>Quantity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {obj.map((i) => (
-                <tr>
-                  <td>{i.component.name} </td>
-                  <td>{i.component.price} </td>
-                  <td>{i.component.description} </td>
-                  <td>{i.component.manufacturer} </td>
-                  <td>{i.component.manufacturerPartId} </td>
-                  <td>{i.quantity}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
+        {loadingModal ? (
+          <Spinner className="m-0 m-auto" animation="border" />
+        ) : (
+          <div>
+            <Modal.Header closeButton>
+              <Modal.Title>
+                <h3 className="text-center">Details</h3>
+              </Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+              <h5 className="text-center">Item</h5>
+
+              <div>
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{details.name}</td>
+                      <td>{details.description}</td>
+                      <td>{details.price}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <h5 className="text-center">Included Components</h5>
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th>Description</th>
+                      <th>Manufacturer</th>
+                      <th>ManufacturerPartId</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {obj.map((i) => (
+                      <tr>
+                        <td>{i.component.name} </td>
+                        <td>{i.component.price} </td>
+                        <td>{i.component.description} </td>
+                        <td>{i.component.manufacturer} </td>
+                        <td>{i.component.manufacturerPartId} </td>
+                        <td>{i.quantity}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </div>
+        )}
       </Modal>
     </div>
   );

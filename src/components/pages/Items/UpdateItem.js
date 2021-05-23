@@ -69,7 +69,7 @@ const UpdateItem = (props) => {
       ) : (
         <Row>
           <Col>
-            <Card className="p-5 shadow">
+            <Card className="p-5 shadow mb-5">
               <h5>Update {element}</h5>
               <hr />
 

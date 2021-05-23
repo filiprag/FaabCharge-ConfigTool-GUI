@@ -38,59 +38,61 @@ function App() {
     <div className="App ">
       <Router>
         <Navbar />
-        <div className="p-5">
-          <Switch>
-            <ProtectedRoute exact path="/CreateConfiguration">
-              <CreateConfiguration element="Configuration" />
-            </ProtectedRoute>
-            <ProtectedRoute exact path="/AllConfigurations">
-              <AllConfigurations element="Configuration" />
-            </ProtectedRoute>
-            <ProtectedRoute
-              exact
-              path="/UpdateConfiguration"
-              component={UpdateConfiguration}
-              id={null}
-            ></ProtectedRoute>
-            <ProtectedRoute exact path="/CompareConfigurations">
-              <CompareConfigurations />
-            </ProtectedRoute>
+        <div className="body">
+          <div className="p-5 ">
+            <Switch>
+              <ProtectedRoute exact path="/CreateConfiguration">
+                <CreateConfiguration element="Configuration" />
+              </ProtectedRoute>
+              <ProtectedRoute exact path="/AllConfigurations">
+                <AllConfigurations element="Configuration" />
+              </ProtectedRoute>
+              <ProtectedRoute
+                exact
+                path="/UpdateConfiguration"
+                component={UpdateConfiguration}
+                id={null}
+              ></ProtectedRoute>
+              <ProtectedRoute exact path="/CompareConfigurations">
+                <CompareConfigurations />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/CreateItem">
-              <CreateItem element="Item" />
-            </ProtectedRoute>
-            <ProtectedRoute
-              exact
-              path="/UpdateItem"
-              component={UpdateItem}
-              id={null}
-            ></ProtectedRoute>
-            <ProtectedRoute exact path="/AllItems">
-              <AllItems />
-            </ProtectedRoute>
-            <ProtectedRoute exact path="/CompareItems">
-              <CompareItems />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/CreateItem">
+                <CreateItem element="Item" />
+              </ProtectedRoute>
+              <ProtectedRoute
+                exact
+                path="/UpdateItem"
+                component={UpdateItem}
+                id={null}
+              ></ProtectedRoute>
+              <ProtectedRoute exact path="/AllItems">
+                <AllItems />
+              </ProtectedRoute>
+              <ProtectedRoute exact path="/CompareItems">
+                <CompareItems />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/CreateComponent">
-              <CreateComponent props element="Component" />
-            </ProtectedRoute>
-            <ProtectedRoute
-              exact
-              path="/UpdateComponent"
-              component={UpdateComponent}
-              id={null}
-            ></ProtectedRoute>
-            <ProtectedRoute exact path="/AllComponents">
-              <AllComponents />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/CreateComponent">
+                <CreateComponent props element="Component" />
+              </ProtectedRoute>
+              <ProtectedRoute
+                exact
+                path="/UpdateComponent"
+                component={UpdateComponent}
+                id={null}
+              ></ProtectedRoute>
+              <ProtectedRoute exact path="/AllComponents">
+                <AllComponents />
+              </ProtectedRoute>
 
-            <Route path="/Login">
-              <Login />
-            </Route>
-          </Switch>
+              <Route path="/Login">
+                <Login />
+              </Route>
+            </Switch>
+          </div>
         </div>
-        <Footer /> 
+        <Footer />
       </Router>
     </div>
   );

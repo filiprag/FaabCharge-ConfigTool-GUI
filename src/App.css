@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  position: relative;
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -40,4 +42,9 @@
 .chosenItem{
   border: '5px solid green';
   border-radius: 20%;
+}
+
+.body{
+  
+  padding-bottom: 2.5rem;
 }

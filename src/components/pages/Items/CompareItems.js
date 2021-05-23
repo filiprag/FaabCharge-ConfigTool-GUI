@@ -31,10 +31,6 @@ const CompareItems = (props) => {
               Check the boxes to choose two items and press the confirm button
               to compare the chosen items.
             </Form.Text>
-            <p muted className="muted">
-              Check the boxes to choose two items and press the confirm button
-              to compare the chosen items.
-            </p>
           </div>
           <hr />
           <CompareList

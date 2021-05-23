@@ -28,6 +28,14 @@ const CompareConfigurations = (props) => {
       <div>
         <Row>
           <Col sm={10} md={5} lg={5} className="m-0 m-auto">
+            <div className>
+              <h3>Compare Configurations</h3>
+              <Form.Text muted>
+                Check the boxes to choose two Configurations and press the
+                confirm button to compare the chosen Configurations.
+              </Form.Text>
+            </div>
+            <hr />
             <CompareList
               element={props.element}
               filteredList={filteredList}

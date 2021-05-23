@@ -54,6 +54,7 @@ const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
       let componentList = props.selected.map((i) => {
         return {
           id: i.component.id,
+          price: i.component.price,
           quantity: i.quantity,
         };
       });
@@ -79,7 +80,7 @@ const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
           .then((res) => {
             console.log(res);
             if (res.status == "200") {
-              swal("Item Updated!", "Item Successfully Updated!", "success");
+              swal("Item Updated!", "Item Successfully Updated!", "success").then(v => {window.location.replace("/AllItems")});
             } else {
               swal("Error!", "Something Went Wrong!", "error");
             }
@@ -201,7 +202,7 @@ const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
       itemList = props.selected.map((i) => {
         return {
           id: i.id,
-          name: i.name,
+          name: i.name
         };
       });
 

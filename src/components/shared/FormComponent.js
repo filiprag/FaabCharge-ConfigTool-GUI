@@ -197,30 +197,38 @@ const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
          document.getElementById("Version").classList.remove("is-invalid");
          document.getElementById("Version").classList.add("is-valid");
        }
+
       let name = document.getElementById("Name").value
       let version = document.getElementById("Version").value;
+
+
       let itemList = []
       itemList = props.selected.map(i => {
 
         return {
           'id': i.id,
-          'name': i.name
+          'name': i.name,
+          'price': i.price,
+          'description': i.description
         }
       })
 
       let postObj = {
         "configuration": {
+          "id": 0,
           "name": name,
           "versionNumber": version
         },
         "items": itemList
       }
 
+      
       if(ok){
+
+        console.log(postObj);
          axios
            .post("https://localhost:44345/Configuration/", postObj, apiHeader)
            .then((res) => {
-             console.log(res);
              if (res.status == "200") {
                swal(
                  "Configuration Created!",

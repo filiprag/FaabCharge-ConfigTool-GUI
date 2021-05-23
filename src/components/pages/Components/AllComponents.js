@@ -56,7 +56,10 @@ function AllComponent(props) {
   const refreshpage = () => {
     axios
       .get("https://localhost:44345/Components", apiHeader)
-      .then((res) => setPosts(res.data));
+      .then((res) => {
+        setPosts(res.data)
+        setFilteredList(res.data)
+      });
   };
 
 
@@ -68,12 +71,13 @@ function AllComponent(props) {
         .then((res) => {
           if (res.status == "200"){
 
-            console.log(e.target.id)
+
+            refreshpage();
             swal(
               "Component Deleted",
               "Component was succesfully deleted",
               "success"
-            ).then((value) => {refreshpage()})
+            )
 
 
 
@@ -99,7 +103,7 @@ function AllComponent(props) {
     { label: "Price", key: "price" },
     { label: "Description", key: "description" },
     { label: "Manufacturer", key: "manufacturer" },
-    { label: "ManufacturerPartId", key: "manufacturerpartid" },
+    { label: "ManufacturerPartId", key: "manufacturerPartId" },
   ];
 
   return (

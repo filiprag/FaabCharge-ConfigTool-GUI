@@ -10,7 +10,7 @@ import Pagination from "../../shared/Pagination.js";
 const CompareList = (props) => {
   const [show, setShow] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(2);
+  const [postsPerPage, setPostsPerPage] = useState(10);
   const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
 
   useEffect(() => {

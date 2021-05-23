@@ -34,7 +34,7 @@ function AllConfigurations(props) {
   const [details, setDetails] = useState([])
   const [list, setList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage, setPostsPerPage] = useState(2);
+    const [postsPerPage, setPostsPerPage] = useState(10);
     const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" }};
 
   useEffect(() => {
@@ -62,7 +62,10 @@ function AllConfigurations(props) {
   };
 const refreshpage = () => {
 
-  axios.get("https://localhost:44345/Configuration", apiHeader).then((res => setPosts(res.data)))
+  axios.get("https://localhost:44345/Configuration", apiHeader).then((res) => {
+        setPosts(res.data)
+        setFilteredList(res.data)
+      });
 
 
 }

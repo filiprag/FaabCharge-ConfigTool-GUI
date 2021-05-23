@@ -61,8 +61,11 @@ function AllItems(props) {
   };
   const refreshpage = () => {
     axios
-      .get("https://localhost:44345/Components", apiHeader)
-      .then((res) => setPosts(res.data));
+      .get("https://localhost:44345/Items", apiHeader)
+      .then((res) => {
+        setPosts(res.data)
+        setFilteredList(res.data)
+      });
   };
   const deleteHandler = (e) => {
     if (window.confirm("Are you sure?")) {

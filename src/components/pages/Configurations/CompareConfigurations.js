@@ -28,7 +28,7 @@ const CompareConfigurations = (props) => {
       <div>
         <Row>
           <Col sm={10} md={5} lg={5} className="m-0 m-auto">
-            <div className>
+            <div>
               <h3>Compare Configurations</h3>
               <Form.Text muted>
                 Check the boxes to choose two Configurations and press the

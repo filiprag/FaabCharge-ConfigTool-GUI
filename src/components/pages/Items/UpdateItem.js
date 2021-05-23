@@ -4,6 +4,7 @@ import { Col, Row, Card, Spinner } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SelectedList from "../../shared/SelectedList.js";
 import Table from "../../shared/TableComponent.js";
+import Pagination from "../../shared/Pagination";
 
 import EditFormComponent from "../../shared/EditFormComponent";
 
@@ -16,17 +17,27 @@ const UpdateItem = (props) => {
   const [childColumns, setChildColumns] = useState([]);
   const [element, setElement] = useState("Item");
   const [selected, setSelected] = useState([]);
+  const [id, setId] = useState(0)
   const [item, setItem] = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage, setPostsPerPage] = useState(10);
   const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
 
   useEffect(() => {
     
 
-    console.log(props.location.id)
+    
 
     if (props.location.id == null) {
       
       window.location.replace("/AllItems");
+    } else {
+
+      setId(props.location.id);
+
+      console.log("re-render " + id)
+      
+      
     }
 
     let c = ["Name", "Description"]
@@ -49,7 +60,6 @@ const UpdateItem = (props) => {
     
     axios.get("https://localhost:44345/Components", apiHeader).then((res) => {
       if (res.status == "200") {
-        console.log(res.data);
         setComponentList(res.data);
         setFilteredList(res.data);
         setLoading(false);
@@ -61,10 +71,14 @@ const UpdateItem = (props) => {
       
   }, []);
 
-  console.log(selected)
+
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = componentList.slice(indexOfFirstPost, indexOfLastPost);
+
   return (
     <div>
-      {props.location.id == null ? (
+      {id == null ? (
         <Spinner animation="border" />
       ) : (
         <Row>
@@ -93,20 +107,28 @@ const UpdateItem = (props) => {
                 <div className="p-5">
                   <Spinner animation="border" />
                 </div>
-              ) : (
-                <Table
-                  loading={loading}
-                  list={componentList}
-                  columns={childColumns}
-                  setFilteredList={setFilteredList}
-                  filteredList={filteredList}
-                  query={query}
-                  setQuery={setQuery}
-                  element={element}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-              )}
+              ) : 
+
+                  <Table
+                    loading={loading}
+                    list={currentPosts}
+                    columns={childColumns}
+                    setFilteredList={setFilteredList}
+                    filteredList={filteredList}
+                    query={query}
+                    setQuery={setQuery}
+                    element={element}
+                    selected={selected}
+                    setSelected={setSelected}
+                    currentPage={currentPage}
+                  />
+              }
+              <Pagination
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                postsPerPage={postsPerPage}
+                totalPosts={componentList.length}
+              />
             </Card>
           </Col>
         </Row>

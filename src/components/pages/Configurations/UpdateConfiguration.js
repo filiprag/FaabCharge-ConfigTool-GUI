@@ -4,7 +4,7 @@ import { Col, Row, Card, Spinner } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SelectedList from "../../shared/SelectedList.js";
 import Table from "../../shared/TableComponent.js";
-
+  import Pagination from "../../shared/Pagination";
 import EditFormComponent from "../../shared/EditFormComponent";
 
 const UpdateConfiguration = (props) => {
@@ -17,7 +17,10 @@ const UpdateConfiguration = (props) => {
   const [element, setElement] = useState("Configuration");
   const [selected, setSelected] = useState([]);
   const [configuration, setConfiguration] = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage, setPostsPerPage] = useState(10);
   const apiHeader = { headers: { Key: "tNL1Jrv6pEEO5h50RCrB" } };
+
 
   useEffect(() => {
 
@@ -59,12 +62,13 @@ const UpdateConfiguration = (props) => {
     });
   }, []);
 
-  console.log(selected);
+  
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = componentList.slice(indexOfFirstPost, indexOfLastPost);
+
   return (
     <div>
-      {props.location.id == null ? (
-        <Spinner animation="border" />
-      ) : (
         <Row>
           <Col>
             <Card className="p-5 shadow">
@@ -95,7 +99,7 @@ const UpdateConfiguration = (props) => {
                 <Table
                   loading={loading}
                   columns={childColumns}
-                  list={componentList}
+                  list={currentPosts}
                   setFilteredList={setFilteredList}
                   filteredList={filteredList}
                   query={query}
@@ -103,12 +107,18 @@ const UpdateConfiguration = (props) => {
                   element={element}
                   selected={selected}
                   setSelected={setSelected}
+                  currentPage={currentPage}
                 />
               )}
+              <Pagination
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                postsPerPage={postsPerPage}
+                totalPosts={componentList.length}
+              />
             </Card>
           </Col>
         </Row>
-      )}
     </div>
   );
 };

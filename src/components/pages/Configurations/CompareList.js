@@ -10,7 +10,7 @@ const CompareList = (props) => {
 
   const [show, setShow] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(2);
+  const [postsPerPage, setPostsPerPage] = useState(10);
 
   useEffect(() => {
 
@@ -82,40 +82,49 @@ const CompareList = (props) => {
       );
   return (
     <div>
-      <Card>
-        <Row>
-          <Col><Form.Control placeholder='Search...' onChange={e => props.setQuery(e.target.value)}></Form.Control></Col>
-          <Col></Col>
-          <Col></Col>
-        </Row>
-        <Table>
-          <thead>
+      <Row>
+        <Col>
+          <Form.Control
+            placeholder="Search..."
+            onChange={(e) => props.setQuery(e.target.value)}
+          ></Form.Control>
+        </Col>
+        <Col></Col>
+        <Col></Col>
+      </Row>
+      <Table>
+        <thead className="table-borderless">
+          <tr>
+            <th>Name</th>
+            <th>Version Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentPosts.map((i) => (
             <tr>
-              <th>Name</th>
-              <th>Version Number</th>
+              <td>{i.name}</td>
+              <td>{i.versionNumber}</td>
+              <td>
+                {" "}
+                <Form.Check
+                  onChange={clickHandler}
+                  name="check"
+                  id={i.id}
+                />{" "}
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {currentPosts.map((i) => (
-              <tr>
-                <td>{i.name}</td>
-                <td>{i.versionNumber}</td>
-                <td>
-                  {" "}
-                  <Form.Check
-                    onChange={clickHandler}
-                    name="check"
-                    id={i.id}
-                  />{" "}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-        <Button onClick={handleShow} variant="dark">
-          Confirm
-        </Button>
-      </Card>
+          ))}
+        </tbody>
+      </Table>
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        postsPerPage={postsPerPage}
+        totalPosts={props.filteredList.length}
+      />
+      <Button onClick={handleShow} variant="dark">
+        Confirm
+      </Button>
       <Modal size="xl" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Comparison</Modal.Title>
